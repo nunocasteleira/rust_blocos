@@ -50,11 +50,3 @@ pub fn class_percentage(config: ClassConfig) -> ClassResult {
         girl_percentage,
     }
 }
-
-pub fn format_class_result(result: (f64, f64)) -> String {
-    let (boys, girls) = result;
-    format!(
-        "The class has {:.2}% of boys and {:.2}% of girls",
-        boys, girls
-    )
-}
