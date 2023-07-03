@@ -1,28 +1,46 @@
-use std::io;
+use std::{io::Stdin, str::FromStr};
 
-pub fn input_exercise_number() -> u32 {
+pub trait ExerciseConfig {
+    fn build(stdin: &Stdin) -> Self;
+}
+
+pub fn input_exercise_number(stdin: &Stdin) -> u32 {
     let mut exercise = String::new();
-    let stdin = io::stdin(); // We get `Stdin` here.
 
-    let mut result: Result<u32, &'static str>;
+    retry_input(
+        stdin,
+        &mut exercise,
+        "Please input what exercise would you like to run:",
+        "Error parsing exercise",
+    )
+}
+
+pub fn validate_input<F: FromStr>(input: &str) -> Result<F, &'static str> {
+    match input.trim().parse::<F>() {
+        Ok(n) => Ok(n),
+        Err(_) => Err("Failed to parse user input"),
+        // Invalid exercise. Did you pass a valid exercise number?
+    }
+}
+
+pub fn retry_input<F: FromStr>(
+    stdin: &Stdin,
+    buf: &mut String,
+    prompt: &str,
+    error_msg: &str,
+) -> F {
+    let mut result: Result<F, &'static str>;
     loop {
-        println!("Please input what exercise would you like to run:");
-        let _ = stdin.read_line(&mut exercise);
-        result = validate_exercise_number(&exercise);
+        println!("{}", prompt);
+        let _ = stdin.read_line(buf);
+        result = validate_input(buf);
         match result {
             Ok(_) => break,
             Err(e) => {
-                println!("Error parsing exercise: {e}");
-                exercise.clear();
+                println!("{}: {}", error_msg, e);
+                buf.clear();
             }
         }
     }
     result.unwrap()
-}
-
-pub fn validate_exercise_number(exercise_number: &str) -> Result<u32, &'static str> {
-    match exercise_number.trim().parse::<u32>() {
-        Ok(n) => Ok(n),
-        Err(_) => Err("Invalid exercise. Did you pass a valid exercise number?"),
-    }
 }
