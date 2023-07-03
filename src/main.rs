@@ -1,9 +1,6 @@
 use std::io;
 
-use blocos::{
-    bloco1::e02_bouquet_price::{bouquet_price, format_bouquet_answer, BouquetConfig},
-    exerciser::{input_exercise_number, ExerciseConfig},
-};
+use blocos::{bloco1::exercises::Bloco1Exercises, exerciser::input_exercise_number};
 
 fn main() -> io::Result<()> {
     let stdin = io::stdin(); // We get `Stdin` here.
@@ -11,10 +8,10 @@ fn main() -> io::Result<()> {
 
     println!("exercise {} ", exercise);
 
-    let config = BouquetConfig::build(&stdin);
-    let result = bouquet_price(config);
+    let config = Bloco1Exercises::build(exercise, &stdin);
+    let result = config.call();
 
-    println!("{}", format_bouquet_answer(result));
+    result.print_answer();
 
     Ok(())
 }

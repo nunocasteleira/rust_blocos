@@ -4,6 +4,10 @@ pub trait ExerciseConfig {
     fn build(stdin: &Stdin) -> Self;
 }
 
+pub trait ExerciseResult {
+    fn print_answer(&self);
+}
+
 pub fn input_exercise_number(stdin: &Stdin) -> u32 {
     let mut exercise = String::new();
 

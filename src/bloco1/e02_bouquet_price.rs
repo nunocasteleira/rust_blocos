@@ -1,10 +1,8 @@
 use std::io::Stdin;
 
-use crate::exerciser::{retry_input, ExerciseConfig};
+use crate::exerciser::{retry_input, ExerciseConfig, ExerciseResult};
 
 /// Exercise Two
-
-#[derive(Debug)]
 pub struct BouquetConfig {
     roses_qty: u32,
     tulip_qty: u32,
@@ -13,7 +11,7 @@ pub struct BouquetConfig {
 }
 
 impl ExerciseConfig for BouquetConfig {
-    fn build(stdin: &Stdin) -> BouquetConfig {
+    fn build(stdin: &Stdin) -> Self {
         let mut roses_qty_input = String::new();
         let mut tulip_qty_input = String::new();
         let mut rose_price_input = String::new();
@@ -43,15 +41,29 @@ impl ExerciseConfig for BouquetConfig {
     }
 }
 
-pub fn bouquet_price(config: BouquetConfig) -> f64 {
+pub struct BouquetResult {
+    bouquet_price: f64,
+}
+
+impl BouquetResult {
+    fn get_bouquet_price(&self) -> f64 {
+        self.bouquet_price
+    }
+}
+
+impl ExerciseResult for BouquetResult {
+    fn print_answer(&self) {
+        println!("The bouquet will cost €{:.2}", self.get_bouquet_price());
+    }
+}
+
+pub fn bouquet_price(config: BouquetConfig) -> BouquetResult {
     let roses = config.roses_qty as f64 * config.rose_price;
     let tulips = config.tulip_qty as f64 * config.tulip_price;
 
-    roses + tulips
-}
-
-pub fn format_bouquet_answer(result: f64) -> String {
-    format!("The bouquet will cost €{:.2}", result)
+    BouquetResult {
+        bouquet_price: roses + tulips,
+    }
 }
 
 #[cfg(test)]
@@ -60,7 +72,7 @@ mod tests {
 
     #[test]
     fn test_bouquet_price() {
-        let expected = 25.;
+        let expected = BouquetResult { bouquet_price: 25. };
 
         let result = bouquet_price(BouquetConfig {
             roses_qty: 2,
@@ -69,6 +81,6 @@ mod tests {
             tulip_price: 5.,
         });
 
-        assert_eq!(expected, result);
+        assert_eq!(expected.get_bouquet_price(), result.get_bouquet_price());
     }
 }
