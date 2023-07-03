@@ -6,6 +6,10 @@ pub struct ThunderConfig {
 }
 
 impl ExerciseConfig for ThunderConfig {
+    fn get_title() -> String {
+        String::from("Let's calculate the distance of a thunder with the seconds it took to be listened.")
+    }
+
     fn build(stdin: &std::io::Stdin) -> Self {
         let mut seconds_input = String::new();
 
@@ -21,7 +25,7 @@ pub struct ThunderResult {
 
 impl ExerciseResult for ThunderResult {
     fn print_answer(&self) {
-        println!("The thunder is at {}", self.get_distance())
+        println!("The thunder is at {}", self.distance)
     }
 }
 
@@ -29,12 +33,6 @@ pub fn thunder_distance(config: ThunderConfig) -> ThunderResult {
     let ThunderConfig { seconds } = config;
     ThunderResult {
         distance: seconds as f64 * 0.34,
-    }
-}
-
-impl ThunderResult {
-    fn get_distance(&self) -> f64 {
-        self.distance
     }
 }
 
@@ -51,7 +49,7 @@ mod tests {
 
         assert_float_eq!(
             expected,
-            thunder_distance(ThunderConfig { seconds }).get_distance(),
+            thunder_distance(ThunderConfig { seconds }).distance,
             abs <= 0.5
         );
     }
@@ -63,7 +61,7 @@ mod tests {
 
         assert_float_eq!(
             expected,
-            thunder_distance(ThunderConfig { seconds }).get_distance(),
+            thunder_distance(ThunderConfig { seconds }).distance,
             abs <= 0.5
         );
     }

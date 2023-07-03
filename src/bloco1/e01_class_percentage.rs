@@ -9,6 +9,10 @@ pub struct ClassConfig {
 }
 
 impl ExerciseConfig for ClassConfig {
+    fn get_title() -> String {
+        String::from("Let's calculate the percentage of boys and girls on a given class.")
+    }
+
     fn build(stdin: &Stdin) -> Self {
         let mut boys_qty_input = String::new();
         let mut girls_qty_input = String::new();

@@ -9,6 +9,10 @@ pub struct CilinderConfig {
 }
 
 impl ExerciseConfig for CilinderConfig {
+    fn get_title() -> String {
+        String::from("Let's calculate the volume of a cilinder.")
+    }
+
     fn build(stdin: &std::io::Stdin) -> Self {
         let mut radius_input = String::new();
         let mut height_input = String::new();
@@ -26,13 +30,7 @@ pub struct CilinderResult {
 
 impl ExerciseResult for CilinderResult {
     fn print_answer(&self) {
-        println!("The cylinder has a volume of {}", self.get_volume())
-    }
-}
-
-impl CilinderResult {
-    fn get_volume(&self) -> f64 {
-        self.volume
+        println!("The cylinder has a volume of {}", self.volume)
     }
 }
 
@@ -56,7 +54,7 @@ mod tests {
         let height = 4.;
 
         let result = cilinder_volume(CilinderConfig { radius, height });
-        assert_float_eq!(expected, result.get_volume(), abs <= 0.01);
+        assert_float_eq!(expected, result.volume, abs <= 0.01);
     }
 
     #[test]
@@ -69,6 +67,6 @@ mod tests {
             radius: radius as f64,
             height: height as f64,
         });
-        assert_float_eq!(expected, result.get_volume(), abs <= 0.01);
+        assert_float_eq!(expected, result.volume, abs <= 0.01);
     }
 }

@@ -11,6 +11,10 @@ pub struct BouquetConfig {
 }
 
 impl ExerciseConfig for BouquetConfig {
+    fn get_title() -> String {
+        String::from("Let's calculate the price of a bouquet with roses and tulips.")
+    }
+
     fn build(stdin: &Stdin) -> Self {
         let mut roses_qty_input = String::new();
         let mut tulip_qty_input = String::new();
@@ -45,15 +49,9 @@ pub struct BouquetResult {
     bouquet_price: f64,
 }
 
-impl BouquetResult {
-    fn get_bouquet_price(&self) -> f64 {
-        self.bouquet_price
-    }
-}
-
 impl ExerciseResult for BouquetResult {
     fn print_answer(&self) {
-        println!("The bouquet will cost €{:.2}", self.get_bouquet_price());
+        println!("The bouquet will cost €{:.2}", self.bouquet_price);
     }
 }
 
@@ -72,7 +70,7 @@ mod tests {
 
     #[test]
     fn test_bouquet_price() {
-        let expected = BouquetResult { bouquet_price: 25. };
+        let expected = 25.;
 
         let result = bouquet_price(BouquetConfig {
             roses_qty: 2,
@@ -81,6 +79,6 @@ mod tests {
             tulip_price: 5.,
         });
 
-        assert_eq!(expected.get_bouquet_price(), result.get_bouquet_price());
+        assert_eq!(expected, result.bouquet_price);
     }
 }

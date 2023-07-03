@@ -1,6 +1,7 @@
 use std::{io::Stdin, str::FromStr};
 
 pub trait ExerciseConfig {
+    fn get_title() -> String;
     fn build(stdin: &Stdin) -> Self;
 }
 
