@@ -51,17 +51,17 @@ mod tests {
 
     #[test]
     fn test_cilinder_volume() {
-        let expected = CilinderResult { volume: 50.26 };
+        let expected = 50.26;
         let radius = 2.;
         let height = 4.;
 
         let result = cilinder_volume(CilinderConfig { radius, height });
-        assert_float_eq!(expected.get_volume(), result.get_volume(), abs <= 0.01);
+        assert_float_eq!(expected, result.get_volume(), abs <= 0.01);
     }
 
     #[test]
     fn another_test_cilinder_volume() {
-        let expected = CilinderResult { volume: 565486.68 };
+        let expected = 565486.68;
         let radius = 60;
         let height = 50;
 
@@ -69,6 +69,6 @@ mod tests {
             radius: radius as f64,
             height: height as f64,
         });
-        assert_float_eq!(expected.get_volume(), result.get_volume(), abs <= 0.01);
+        assert_float_eq!(expected, result.get_volume(), abs <= 0.01);
     }
 }
